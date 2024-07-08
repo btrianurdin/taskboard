@@ -1,5 +1,31 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true }
-})
+  compatibilityDate: "2024-04-03",
+  devtools: { enabled: true },
+  modules: ["@nuxt/ui"],
+  css: ["~/assets/css/styles.css"],
+  app: {
+    head: {
+      title: "MyTodo - catat semua yang aktivitasmu.",
+      titleTemplate: "%s - MyTodo",
+      link: [
+        {
+          href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap",
+          rel: "stylesheet",
+        },
+        {
+          href: "https://fonts.googleapis.com",
+          rel: "preconnect",
+        },
+        {
+          href: "https://fonts.gstatic.com",
+          rel: "preconnect",
+          crossorigin: "use-credentials",
+        },
+      ],
+    },
+  },
+  colorMode: {
+    preference: "light",
+  },
+});
