@@ -1,3 +1,4 @@
+import { getIconCollections, iconsPlugin } from "@egoist/tailwindcss-icons";
 import { Config } from "tailwindcss";
 
 /**
@@ -12,7 +13,11 @@ const config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    iconsPlugin({
+      collections: getIconCollections(["lucide", "heroicons"]),
+    }),
+  ],
 };
 
 export default config;
