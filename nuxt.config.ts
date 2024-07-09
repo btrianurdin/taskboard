@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   ssr: false,
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ["@nuxt/ui", "@pinia/nuxt"],
   css: ["~/assets/css/styles.css"],
   app: {

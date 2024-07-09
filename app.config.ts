@@ -39,6 +39,5 @@ export default defineAppConfig({
       active: "text-black",
       inactive: "text-gray-500",
     },
-
   },
 });

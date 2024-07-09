@@ -16,7 +16,7 @@
         />
       </div>
     </header>
-    <div class="h-full w-full overflow-x-auto">
+    <div class="h-full w-full overflow-y-hidden">
       <slot />
     </div>
   </div>

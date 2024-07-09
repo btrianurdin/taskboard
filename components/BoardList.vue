@@ -1,7 +1,26 @@
 <template>
   <div class="relative w-[300px] h-auto flex-shrink-0">
-    <div class="w-full p-3 bg-white shadow-md rounded-md flex gap-3 flex-col max-h-full">
-      <h2 class="font-medium">{{ props.title }}</h2>
+    <div
+      class="w-full p-3 bg-white shadow-md rounded-md flex gap-3 flex-col max-h-full"
+    >
+      <!-- List Header -->
+      <div class="cursor-text">
+        <UTextarea
+          v-if="isListTitleEditMode"
+          ref="inputRef"
+          :rows="1"
+          v-model="listTitle"
+          @blur="updateList"
+          class="mb-2"
+          autoresize
+          autofocus
+        />
+        <h2 v-else class="font-medium" @click="isListTitleEditMode = true">
+          {{ props.title }}
+        </h2>
+      </div>
+
+      <!-- List Items -->
       <draggable
         v-if="!isEmptyArray(props.list)"
         :list="props.list"
@@ -9,13 +28,14 @@
         class="flex flex-col gap-3 overflow-auto"
         item-key="id"
         :animation="300"
+        @change="changeHandler"
       >
         <template #item="{ element: task }">
-          <button class="w-full p-3 bg-gray-100 rounded-md shadow text-left">
-            <h3 class="title">{{ task.title }}</h3>
-          </button>
+          <BoardListItem :listId="props.id" :task="task" />
         </template>
       </draggable>
+
+      <!-- List Footer / Add new task -->
       <button
         v-if="!isAddMode"
         class="hover:bg-gray-100 transition w-full text-left rounded-md flex items-center gap-1 p-2"
@@ -24,8 +44,14 @@
         <UIcon name="i-heroicons-plus" class="text-black" />
         Add Task
       </button>
-      <div v-if="isAddMode" class="flex flex-col gap-2">
-        <UInput ref="inputRef" v-model="taskTitle" autofocus />
+      <div v-else class="flex flex-col gap-2">
+        <UTextarea
+          ref="inputRef"
+          :rows="1"
+          v-model="taskTitle"
+          autoresize
+          autofocus
+        />
         <div class="flex gap-2">
           <UButton :disabled="!taskTitle" @click="addTaskHandler">
             Save
@@ -40,25 +66,38 @@
 </template>
 <script setup lang="ts">
 import draggable from "vuedraggable";
+import BoardListItem from "~/components/BoardListItem.vue";
 import { isEmptyArray } from "~/helpers/array-fn";
 import createId from "~/helpers/create-id";
+import useTodoStore from "~/store";
 import type { Task } from "~/types";
 
 const props = defineProps<{
+  id: string;
   title: string;
   list: Task[];
   group: string;
 }>();
 
+const todoStore = useTodoStore();
+
+const isListTitleEditMode = ref<boolean>(false);
+const listTitle = ref<string>(props.title);
+
+const updateList = () => {
+  todoStore.updateBoardList({
+    id: props.id,
+    title: listTitle.value,
+  });
+  isListTitleEditMode.value = false;
+};
+
 const isAddMode = ref<boolean>(false);
 const taskTitle = ref<string>("");
 
-const emits = defineEmits<{
-  (e: "addTask", data: { id: string; title: string }): void;
-}>();
-
 const addTaskHandler = () => {
-  emits("addTask", {
+  todoStore.addTask({
+    listId: props.id,
     id: createId(8),
     title: taskTitle.value,
   });
@@ -66,7 +105,16 @@ const addTaskHandler = () => {
   taskTitle.value = "";
   isAddMode.value = false;
 };
+
+type ChangeHandlerEvent = {
+  moved: any;
+  added: any;
+  removed: any;
+};
+
+const changeHandler = (e: any) => {};
 </script>
+
 <style scoped lang="postcss">
 .sortable-ghost {
   @apply bg-gray-300 text-gray-300;

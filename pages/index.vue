@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full p-6 w-full">
+  <div class="h-full w-full">
     <div
       v-if="todoStore.status === 'loading'"
       class="h-full w-full flex items-center justify-center gap-2"
@@ -9,17 +9,19 @@
     </div>
     <div
       v-if="todoStore.status === 'ready'"
-      class="h-full flex gap-6"
+      class="h-full flex gap-6 overflow-x-auto p-6"
     >
       <template v-for="board in todoStore.boardLists">
         <BoardList
           group="mytodo"
+          :id="board.id"
           :title="board.title"
           :list="board.tasks"
-          @add-task="(data) => addTaskHandler({ listId: board.id, ...data })"
         />
       </template>
-      <div class="bg-white w-[300px] flex-shrink-0 shadow-md rounded-md">
+      <div
+        class="self-start bg-white w-[300px] flex-shrink-0 shadow-md rounded-md"
+      >
         <button
           v-if="!isAddMode"
           class="w-full p-3 flex items-center justify-center gap-2 hover:bg-gray-100 transition"
@@ -29,7 +31,13 @@
           Add New List
         </button>
         <div v-if="isAddMode" class="p-3 flex flex-col gap-2">
-          <UInput ref="inputRef" v-model="listName" autofocus />
+          <UTextarea
+            ref="inputRef"
+            v-model="listName"
+            :rows="1"
+            autoresize
+            autofocus
+          />
           <div class="flex gap-2">
             <UButton :disabled="!listName" @click="addListHandler">
               Save
@@ -46,12 +54,10 @@
 <script setup lang="ts">
 import createId from "~/helpers/create-id";
 import useTodoStore from "~/store";
-import type { AddTask } from "~/types";
 
 const todoStore = useTodoStore();
 
 const isAddMode = ref<boolean>(false);
-
 const inputRef = ref<HTMLInputElement | null>(null);
 const listName = ref<string>("");
 
@@ -63,6 +69,4 @@ const addListHandler = () => {
   listName.value = "";
   isAddMode.value = false;
 };
-
-const addTaskHandler = (data: AddTask) => todoStore.addTask(data);
 </script>
