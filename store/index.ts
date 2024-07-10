@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import BoardListsRepository from "~/repositories/BoardListsRepository";
-import TaskRepository from "~/repositories/TaskRepository";
 import type {
   AddTask,
   BoardList,
@@ -29,13 +28,12 @@ const useTodoStore = () => {
         }
       },
       addBordLists(params: CreateBoardList) {
-        const payload = {
+        this.boardLists.push({
           id: params.id,
           title: params.title,
           tasks: [],
-        };
-        this.boardLists.push(payload);
-        BoardListsRepository.create(payload);
+        });
+        BoardListsRepository.updateAll(this.boardLists);
       },
       updateBoardList(params: UpdateBoardList) {
         const board = this.boardLists.find((board) => board.id === params.id);
@@ -49,14 +47,16 @@ const useTodoStore = () => {
           (board) => board.id === params.listId
         );
         if (board) {
-          const payload = {
+          board.tasks.push({
             id: params.id,
             title: params.title,
             description: "",
-          };
-          board.tasks.push(payload);
-          TaskRepository.create({ listId: board.id, ...payload });
+          });
+          BoardListsRepository.updateAll(this.boardLists);
         }
+      },
+      triggerMove() {
+        BoardListsRepository.updateAll(this.boardLists);
       },
     },
   });

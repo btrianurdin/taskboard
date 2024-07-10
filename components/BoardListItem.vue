@@ -2,13 +2,13 @@
   <div
     ref="reference"
     :class="[
-      'relative w-full p-3 bg-gray-100 rounded-md shadow text-left group flex-shrink-0',
+      'relative w-full p-3 bg-gray-100 rounded-md shadow text-left flex-shrink-0',
     ]"
   >
     <p>{{ props.task.title }}</p>
     <button
       ref="editTriggerRef"
-      class="absolute top-2 right-2 h-6 w-6 flex items-center justify-center rounded-full group-hover:bg-gray-200"
+      class="absolute top-2 right-2 h-6 w-6 flex items-center justify-center rounded-full hover:bg-gray-200"
       @click="isEditMode = !isEditMode"
     >
       <UIcon name="i-heroicons-ellipsis-vertical" class="text-gray-900" />
@@ -80,10 +80,6 @@ const { floatingStyles, middlewareData } = useFloating(reference, floating, {
   strategy: "fixed",
   placement: "right-start",
   middleware: [flip(), offset(10)],
-});
-
-watchEffect(() => {
-  console.log(floatingStyles.value);
 });
 
 const isFlipped = computed(

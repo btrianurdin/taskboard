@@ -25,3 +25,18 @@ export type AddTask = {
   id: string;
   title: string;
 };
+
+export type ChangeTaskType = "added" | "removed" | "moved";
+export type ChangeTask = {
+  listId: string;
+  task: Task;
+  from?: number;
+  to?: number;
+};
+
+export type MoveTask = {
+  listId: string;
+  task: Task;
+  from: number;
+  to: number;
+};

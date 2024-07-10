@@ -22,13 +22,12 @@
 
       <!-- List Items -->
       <draggable
-        v-if="!isEmptyArray(props.list)"
         :list="props.list"
         :group="props.group"
         class="flex flex-col gap-3 overflow-auto"
         item-key="id"
         :animation="300"
-        @change="changeHandler"
+        @change="todoStore.triggerMove"
       >
         <template #item="{ element: task }">
           <BoardListItem :listId="props.id" :task="task" />
@@ -67,7 +66,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 import BoardListItem from "~/components/BoardListItem.vue";
-import { isEmptyArray } from "~/helpers/array-fn";
 import createId from "~/helpers/create-id";
 import useTodoStore from "~/store";
 import type { Task } from "~/types";
@@ -105,14 +103,6 @@ const addTaskHandler = () => {
   taskTitle.value = "";
   isAddMode.value = false;
 };
-
-type ChangeHandlerEvent = {
-  moved: any;
-  added: any;
-  removed: any;
-};
-
-const changeHandler = (e: any) => {};
 </script>
 
 <style scoped lang="postcss">
