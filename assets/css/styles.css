@@ -5,3 +5,31 @@
 body {
   @apply bg-gray-50 text-gray-900 font-dm-sans;
 }
+
+.task-description {
+  & h1 {
+    @apply text-2xl font-semibold my-3;
+  }
+  & h2 {
+    @apply text-xl font-semibold my-3;
+  }
+  & h3 {
+    @apply text-lg font-semibold my-2.5;
+  }
+  & h4 {
+    @apply text-base font-medium my-2;
+  }
+  & h5 {
+    @apply text-base font-normal my-2;
+  }
+  & h6 {
+    @apply text-base font-light my-2;
+  }
+  & p {
+    @apply text-base font-normal mb-2;
+  }
+  & p:empty::before {
+    @apply block h-3;
+    content: '';
+  }
+}

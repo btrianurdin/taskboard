@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   ssr: false,
   devtools: { enabled: false },
-  modules: ["@nuxt/ui", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "@pinia/nuxt", "nuxt-tiptap-editor"],
   css: ["~/assets/css/styles.css"],
   app: {
     head: {
@@ -28,5 +28,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: "light",
+  },
+  tiptap: {
+    prefix: "tiptap",
   },
 });

@@ -17,6 +17,7 @@
     "dexie": "^4.0.7",
     "localforage": "^1.10.0",
     "nuxt": "^3.12.3",
+    "nuxt-tiptap-editor": "^1.1.2",
     "pinia": "^2.1.7",
     "tailwind-merge": "^2.4.0",
     "vue": "latest",
