@@ -12,6 +12,7 @@
           v-model="listTitle"
           @blur="updateList"
           class="mb-2"
+          :ui="{ base: '!text-base' }"
           autoresize
           autofocus
         />
@@ -27,7 +28,7 @@
         class="flex flex-col gap-3 overflow-auto"
         item-key="id"
         :animation="300"
-        @change="todoStore.triggerMove"
+        @change="todoStore.storageUpdate"
       >
         <template #item="{ element: task }">
           <BoardListItem :listId="props.id" :task="task" />

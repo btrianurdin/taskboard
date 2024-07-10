@@ -2,36 +2,46 @@
   <div
     ref="reference"
     :class="[
-      'relative w-full p-3 bg-gray-100 rounded-md shadow text-left flex-shrink-0',
+      'relative w-full bg-gray-100 hover:bg-gray-200 hover:cursor-pointer rounded-md shadow text-left flex-shrink-0',
     ]"
   >
-    <p>{{ props.task.title }}</p>
+    <div class="p-3" @click="openTaskHandler">{{ props.task.title }}</div>
     <button
       ref="editTriggerRef"
-      class="absolute top-2 right-2 h-6 w-6 flex items-center justify-center rounded-full hover:bg-gray-200"
+      class="absolute top-2 right-2 h-6 w-6 flex items-center justify-center rounded-full hover:bg-gray-300"
       @click="isEditMode = !isEditMode"
     >
       <UIcon name="i-heroicons-ellipsis-vertical" class="text-gray-900" />
     </button>
 
+    <!-- edit box -->
     <div
       id="editBox"
       ref="editBoxRef"
       v-if="isEditMode"
       :style="floatingStyles"
       :class="
-        cn('w-[273px] z-[60] !-left-[21.5%]', isFlipped && '!left-[9.7%]')
+        cn('w-[276px] z-[60] !-left-[286px]', isFlipped && '!left-[128px]')
       "
     >
-      <div
-        contenteditable
-        ref="editInputRef"
-        class="shadow-md rounded-md p-3 bg-white h-[70px] mb-2 focus-visible:outline-none"
+      <UTextarea
+        v-model="title"
+        class="shadow-md rounded-md bg-white w-full resize-none mb-2"
+        :ui="{ base: 'focus:!ring-0 !text-base !p-3' }"
+        autoresize
+        autofocus
+      />
+
+      <UButton
+        @click="saveTitleHandler"
+        :disabled="!title"
+        class="disabled:bg-gray-800 disabled:!opacity-100"
       >
-        {{ props.task.title }}
-      </div>
-      <UButton> Save </UButton>
+        Save
+      </UButton>
     </div>
+
+    <!-- floating action edit -->
     <div
       ref="floating"
       v-if="isEditMode"
@@ -44,23 +54,39 @@
           isFlipped && '!items-end',
         ]"
       >
-        <UButton color="white" icon="i-lucide-clipboard-list">
+        <UButton
+          color="white"
+          icon="i-lucide-clipboard-list"
+          @click="editActionClick('open-card')"
+        >
           Open card
         </UButton>
         <UButton color="white" icon="i-lucide-external-link">
           Visit Detail
         </UButton>
-        <UButton color="red" icon="i-lucide-trash-2">Remove</UButton>
+        <UButton color="white" icon="i-lucide-clock"> Add Date </UButton>
+        <UButton
+          color="red"
+          icon="i-lucide-trash-2"
+          @click="editActionClick('remove')"
+        >
+          Remove
+        </UButton>
       </div>
     </div>
 
     <!-- overlay -->
-    <div v-if="isEditMode" class="fixed inset-0 bg-black bg-opacity-50 z-50" />
+    <div
+      v-if="isEditMode"
+      class="fixed inset-0 bg-gray-200/75 dark:bg-gray-800/75 z-50"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { flip, offset, useFloating } from "@floating-ui/vue";
+import TaskModal from "~/components/TaskModal.vue";
 import cn from "~/helpers/cn";
+import useTodoStore from "~/store";
 import type { Task } from "~/types";
 
 const props = defineProps<{
@@ -68,11 +94,15 @@ const props = defineProps<{
   task: Task;
 }>();
 
+const todoStore = useTodoStore();
+
 const editTriggerRef = ref<HTMLButtonElement | null>(null);
 const isEditMode = ref<boolean>(false);
 const editBoxRef = ref<HTMLDivElement | null>(null);
 const editInputRef = ref<HTMLDivElement | null>(null);
+const title = ref(props.task.title);
 
+// floating action edit
 const reference = ref<HTMLDivElement | null>(null);
 const floating = ref<HTMLDivElement | null>(null);
 
@@ -90,12 +120,49 @@ watch(
   () => isEditMode.value,
   (value) => {
     if (value) {
+      title.value = props.task.title;
       setTimeout(() => {
         editInputRef.value?.focus();
       }, 0);
     }
   }
 );
+
+const saveTitleHandler = () => {
+  todoStore.updateTaskTitle({
+    listId: props.listId,
+    taskId: props.task.id,
+    title: title.value || "",
+  });
+  isEditMode.value = false;
+};
+
+const editActionClick = (action: "open-card" | "remove") => {
+  if (action === "open-card") {
+    modal.open(TaskModal, {
+      listId: props.listId,
+      task: props.task,
+    });
+    isEditMode.value = false;
+  } else if (action === "remove") {
+    todoStore.removeTask(props.listId, props.task.id);
+    isEditMode.value = false;
+  }
+};
+
+const modal = useModal();
+
+const openTaskHandler = (e: Event) => {
+  if (
+    !isEditMode.value &&
+    !editTriggerRef.value?.contains(e.target as HTMLElement)
+  ) {
+    modal.open(TaskModal, {
+      listId: props.listId,
+      task: props.task,
+    });
+  }
+};
 
 const onClickOutside = (e: MouseEvent) => {
   if (isEditMode.value) {
@@ -106,6 +173,7 @@ const onClickOutside = (e: MouseEvent) => {
       !floating.value?.contains(target)
     ) {
       isEditMode.value = false;
+      title.value = props.task.title;
     }
   }
 };
