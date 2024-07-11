@@ -154,6 +154,22 @@ const useTodoStore = () => {
           }
         }
       },
+      updateTaskDueDate(params: {
+        listId: string;
+        taskId: string;
+        date: { start: string; end: string };
+      }) {
+        const board = this.boardLists.find(
+          (board) => board.id === params.listId
+        );
+        if (board) {
+          const task = board.tasks.find((task) => task.id === params.taskId);
+          if (task) {
+            task.dueDate = params.date;
+            this.storageUpdate();
+          }
+        }
+      },
 
       // save changes state to local storage
       storageUpdate() {

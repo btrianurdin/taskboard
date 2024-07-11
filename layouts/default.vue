@@ -3,7 +3,7 @@
     <header
       class="bg-white px-6 pt-6 border-b flex-shrink-0 flex flex-col gap-4 items-center justify-center"
     >
-      <h1 class="text-xl font-semibold text-center">MyTodo</h1>
+      <h1 class="text-xl font-semibold text-center">Taskboard</h1>
       <div class="relative flex gap-6">
         <NuxtLink v-for="item in menuItems" :to="item.href" class="px-3 py-2">
           {{ item.label }}

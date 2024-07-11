@@ -4,7 +4,7 @@
       <UIcon name="i-lucide-copy-check" />
       Checklist
     </p>
-    <div class="">
+    <div>
       <ul
         class="mb-4 flex flex-col gap-2"
         v-if="isNonEmptyArray(props?.checklists)"

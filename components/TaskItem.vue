@@ -6,6 +6,13 @@
     ]"
   >
     <div class="p-3" @click="openTaskHandler">{{ props.task.title }}</div>
+    <p
+      v-if="props.task.dueDate"
+      class="text-xs flex gap-1 items-center px-3 pb-2"
+    >
+      <UIcon name="i-lucide-clock" class="text-gray-500" />
+      {{ printDueDate }}
+    </p>
     <button
       ref="editTriggerRef"
       class="absolute top-2 right-2 h-6 w-6 flex items-center justify-center rounded-full hover:bg-gray-300"
@@ -84,6 +91,7 @@
 </template>
 <script setup lang="ts">
 import { flip, offset, useFloating } from "@floating-ui/vue";
+import dayjs from "dayjs";
 import TaskModal from "~/components/TaskModal.vue";
 import cn from "~/helpers/cn";
 import useTodoStore from "~/store";
@@ -163,6 +171,13 @@ const openTaskHandler = (e: Event) => {
     });
   }
 };
+
+const printDueDate = computed(() => {
+  if (!props.task.dueDate) return "";
+  return `${dayjs(props.task.dueDate.start).format("MMM D")} - ${dayjs(
+    props.task.dueDate.end
+  ).format("MMM D")}, ${dayjs(props.task.dueDate.end).format("HH:mm")}`;
+});
 
 const onClickOutside = (e: MouseEvent) => {
   if (isEditMode.value) {

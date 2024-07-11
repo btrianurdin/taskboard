@@ -14,9 +14,9 @@
       <draggable
         :list="todoStore.boardLists"
         group="board-lists"
-        class="flex gap-3 relative"
+        class="flex gap-6 relative"
         item-key="id"
-        :animation="300"
+        :animation="100"
         handle=".board-drag"
         @change="todoStore.storageUpdate"
       >

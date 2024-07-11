@@ -1,10 +1,12 @@
 <template>
   <div class="relative w-[300px] h-auto flex-shrink-0">
+    <!-- drag handle -->
     <button
       class="board-drag absolute left-1/2 -translate-x-1/2 -top-2 bg-white px-2 rounded-md flex cursor-grab"
     >
       <UIcon name="i-heroicons-bars-2-20-solid" class="text-gray-900 h-5 w-5" />
     </button>
+
     <div
       :class="[
         'w-full p-3 bg-white shadow-md rounded-md flex flex-col max-h-full',
@@ -53,9 +55,8 @@
         :group="props.group"
         class="flex flex-col gap-3 overflow-auto"
         item-key="id"
-        :animation="300"
+        :animation="100"
         ghostClass="l-item-ghost"
-        dragClass="l-item-drag"
         @change="todoStore.storageUpdate"
       >
         <template #item="{ element: task }">
@@ -147,8 +148,5 @@ onClickOutside(addTaskArea, () => {
 <style scoped lang="postcss">
 .l-item-ghost {
   @apply bg-gray-300 text-gray-300;
-}
-.l-item-drag {
-  @apply bg-gray-100;
 }
 </style>

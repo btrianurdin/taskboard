@@ -19,7 +19,10 @@ export type Task = {
   title: string;
   description: string;
   checklists?: Checklist[];
-  dueDate?: string;
+  dueDate?: {
+    start: string;
+    end: string;
+  };
 };
 
 export type Checklist = {

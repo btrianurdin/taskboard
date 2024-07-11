@@ -25,15 +25,11 @@
         :taskId="task.id"
         :checklists="task.checklists || []"
       />
-      <div class="p-3">
-        <p class="text-lg font-medium text-black flex items-center gap-1 mb-3">
-          <UIcon name="i-lucide-clock" />
-          Dates
-        </p>
-        <div class="">
-          <UButton> Add a due date </UButton>
-        </div>
-      </div>
+      <TaskDueDate
+        :listId="listId"
+        :taskId="task.id"
+        :dueDate="task?.dueDate"
+      />
     </div>
   </UModal>
 </template>

@@ -7,8 +7,8 @@ export default defineNuxtConfig({
   css: ["~/assets/css/styles.css"],
   app: {
     head: {
-      title: "MyTodo - catat semua yang aktivitasmu.",
-      titleTemplate: "%s - MyTodo",
+      title: "Taskboard - Keep a record of all your daily activities.",
+      titleTemplate: "%s - Task Notes",
       link: [
         {
           href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap",

@@ -5,7 +5,7 @@
         <UIcon name="i-lucide-text-quote" />
         Decsription
       </p>
-      <UButton v-if="!showEditor && !!description" @click="showEditor = true">
+      <UButton variant="link" v-if="!showEditor && !!description" @click="showEditor = true">
         Edit
       </UButton>
     </div>
@@ -35,6 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import TextEditor from "~/components/ui/TextEditor.vue";
 import useTodoStore from "~/store";
 
 const props = defineProps<{
