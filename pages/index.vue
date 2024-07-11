@@ -20,6 +20,7 @@
         />
       </template>
       <div
+        ref="addModeArea"
         class="self-start bg-white w-[300px] flex-shrink-0 shadow-md rounded-md"
       >
         <button
@@ -52,11 +53,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import { onClickOutside } from "@vueuse/core";
 import createId from "~/helpers/create-id";
 import useTodoStore from "~/store";
 
 const todoStore = useTodoStore();
 
+const addModeArea = ref<HTMLDivElement | null>(null);
 const isAddMode = ref<boolean>(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const listName = ref<string>("");
@@ -69,4 +72,8 @@ const addListHandler = () => {
   listName.value = "";
   isAddMode.value = false;
 };
+
+onClickOutside(addModeArea, () => {
+  isAddMode.value = false;
+});
 </script>

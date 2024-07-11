@@ -44,8 +44,9 @@
         <UIcon name="i-heroicons-plus" class="text-black" />
         Add Task
       </button>
-      <div v-else class="flex flex-col gap-2">
+      <div ref="addTaskArea" v-else class="flex flex-col gap-2">
         <UTextarea
+          id="taskTitle"
           ref="inputRef"
           :rows="1"
           v-model="taskTitle"
@@ -65,6 +66,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { onClickOutside } from "@vueuse/core";
 import draggable from "vuedraggable";
 import BoardListItem from "~/components/BoardListItem.vue";
 import createId from "~/helpers/create-id";
@@ -91,6 +93,7 @@ const updateList = () => {
   isListTitleEditMode.value = false;
 };
 
+const addTaskArea = ref<HTMLDivElement | null>(null);
 const isAddMode = ref<boolean>(false);
 const taskTitle = ref<string>("");
 
@@ -104,6 +107,10 @@ const addTaskHandler = () => {
   taskTitle.value = "";
   isAddMode.value = false;
 };
+
+onClickOutside(addTaskArea, () => {
+  isAddMode.value = false;
+});
 </script>
 
 <style scoped lang="postcss">
