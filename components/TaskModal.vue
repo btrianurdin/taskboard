@@ -8,7 +8,6 @@
           base: '!text-2xl !font-semibold w-full p-0 p-4 border-0 ring-0 shadow-none focus:ring-2',
         }"
         :rows="1"
-        @click="isEditTitleMode = true"
         autoresize
         @blur="
           todoStore.updateTaskTitle({ listId: listId, taskId: task.id, title })
@@ -24,7 +23,7 @@
       <TaskChecklist
         :listId="listId"
         :taskId="task.id"
-        :checklists="task?.checklists || []"
+        :checklists="task.checklists || []"
       />
       <div class="p-3">
         <p class="text-lg font-medium text-black flex items-center gap-1 mb-3">
@@ -39,6 +38,7 @@
   </UModal>
 </template>
 <script setup lang="ts">
+import TaskChecklist from "~/components/TaskChecklist.vue";
 import useTodoStore from "~/store";
 import type { Task } from "~/types";
 
@@ -47,7 +47,6 @@ const props = defineProps<{
   task: Task;
 }>();
 
-const isEditTitleMode = ref<boolean>(false);
 const title = ref<string>(props.task.title);
 
 const todoStore = useTodoStore();

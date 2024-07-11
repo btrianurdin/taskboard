@@ -145,7 +145,7 @@ const editActionClick = (action: "open-card" | "remove") => {
     });
     isEditMode.value = false;
   } else if (action === "remove") {
-    todoStore.removeTask(props.listId, props.task.id);
+    todoStore.deleteTask(props.listId, props.task.id);
     isEditMode.value = false;
   }
 };

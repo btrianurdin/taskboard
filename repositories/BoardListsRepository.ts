@@ -25,6 +25,12 @@ class BoardListsRepository {
   static async updateAll(payload: BoardList[]) {
     await db.setItem("lists", payload);
   }
+
+  static async delete(id: string) {
+    const lists = await this.getAll();
+    const updated = lists.filter((list) => list.id !== id);
+    await db.setItem("lists", updated);
+  }
 }
 
 export default BoardListsRepository;

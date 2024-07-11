@@ -7,7 +7,7 @@
     <div class="">
       <ul
         class="mb-4 flex flex-col gap-2"
-        v-if="isNonEmptyArray(props.checklists)"
+        v-if="isNonEmptyArray(props?.checklists)"
       >
         <li v-for="checklist in props.checklists">
           <TaskChecklistItem

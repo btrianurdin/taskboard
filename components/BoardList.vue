@@ -1,37 +1,65 @@
 <template>
   <div class="relative w-[300px] h-auto flex-shrink-0">
+    <button
+      class="board-drag absolute left-1/2 -translate-x-1/2 -top-2 bg-white px-2 rounded-md flex cursor-grab"
+    >
+      <UIcon name="i-heroicons-bars-2-20-solid" class="text-gray-900 h-5 w-5" />
+    </button>
     <div
-      class="w-full p-3 bg-white shadow-md rounded-md flex gap-3 flex-col max-h-full"
+      :class="[
+        'w-full p-3 bg-white shadow-md rounded-md flex flex-col max-h-full',
+        isNonEmptyArray(props.tasks) && 'gap-3',
+      ]"
     >
       <!-- List Header -->
-      <div class="cursor-text">
+      <div ref="listTitleRef" class="mt-2 flex items-start justify-between">
         <UTextarea
-          v-if="isListTitleEditMode"
-          ref="inputRef"
           :rows="1"
           v-model="listTitle"
-          @blur="updateList"
-          class="mb-2"
-          :ui="{ base: '!text-base' }"
+          @blur="updateTitleHandler"
+          class="w-full"
+          :ui="{
+            strategy: 'override',
+            base: '!text-base w-full border-0 ring-0 shadow-none focus:ring-2',
+          }"
           autoresize
-          autofocus
         />
-        <h2 v-else class="font-medium" @click="isListTitleEditMode = true">
-          {{ props.title }}
-        </h2>
+        <UDropdown
+          :items="[
+            [
+              {
+                label: 'Edit',
+                click: editClickHandler,
+              },
+              {
+                label: 'Delete',
+                class: 'text-red-600',
+                click: () => todoStore.deleteBoardList(props.id),
+              },
+            ],
+          ]"
+          :popper="{ placement: 'bottom-start' }"
+        >
+          <UButton
+            variant="ghost"
+            trailing-icon="i-heroicons-ellipsis-horizontal"
+          />
+        </UDropdown>
       </div>
 
       <!-- List Items -->
       <draggable
-        :list="props.list"
+        :list="props.tasks"
         :group="props.group"
         class="flex flex-col gap-3 overflow-auto"
         item-key="id"
         :animation="300"
+        ghostClass="l-item-ghost"
+        dragClass="l-item-drag"
         @change="todoStore.storageUpdate"
       >
         <template #item="{ element: task }">
-          <BoardListItem :listId="props.id" :task="task" />
+          <TaskItem :listId="props.id" :task="task" />
         </template>
       </draggable>
 
@@ -68,7 +96,7 @@
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
 import draggable from "vuedraggable";
-import BoardListItem from "~/components/BoardListItem.vue";
+import { isNonEmptyArray } from "~/helpers/array-fn";
 import createId from "~/helpers/create-id";
 import useTodoStore from "~/store";
 import type { Task } from "~/types";
@@ -76,21 +104,24 @@ import type { Task } from "~/types";
 const props = defineProps<{
   id: string;
   title: string;
-  list: Task[];
+  tasks: Task[];
   group: string;
 }>();
 
 const todoStore = useTodoStore();
 
-const isListTitleEditMode = ref<boolean>(false);
+const listTitleRef = ref<HTMLDivElement | null>(null);
 const listTitle = ref<string>(props.title);
 
-const updateList = () => {
+const updateTitleHandler = () => {
   todoStore.updateBoardList({
     id: props.id,
     title: listTitle.value,
   });
-  isListTitleEditMode.value = false;
+};
+
+const editClickHandler = () => {
+  listTitleRef.value?.querySelector("textarea")?.focus();
 };
 
 const addTaskArea = ref<HTMLDivElement | null>(null);
@@ -114,10 +145,10 @@ onClickOutside(addTaskArea, () => {
 </script>
 
 <style scoped lang="postcss">
-.sortable-ghost {
+.l-item-ghost {
   @apply bg-gray-300 text-gray-300;
 }
-.sortable-drag {
+.l-item-drag {
   @apply bg-gray-100;
 }
 </style>

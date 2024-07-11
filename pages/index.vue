@@ -11,14 +11,24 @@
       v-if="todoStore.status === 'ready'"
       class="h-full flex gap-6 overflow-x-auto p-6"
     >
-      <template v-for="board in todoStore.boardLists">
-        <BoardList
-          group="mytodo"
-          :id="board.id"
-          :title="board.title"
-          :list="board.tasks"
-        />
-      </template>
+      <draggable
+        :list="todoStore.boardLists"
+        group="board-lists"
+        class="flex gap-3 relative"
+        item-key="id"
+        :animation="300"
+        handle=".board-drag"
+        @change="todoStore.storageUpdate"
+      >
+        <template #item="{ element: lists }">
+          <BoardList
+            group="mytodo"
+            :id="lists.id"
+            :title="lists.title"
+            :tasks="lists.tasks"
+          />
+        </template>
+      </draggable>
       <div
         ref="addModeArea"
         class="self-start bg-white w-[300px] flex-shrink-0 shadow-md rounded-md"
@@ -53,6 +63,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import draggable from "vuedraggable";
 import { onClickOutside } from "@vueuse/core";
 import createId from "~/helpers/create-id";
 import useTodoStore from "~/store";

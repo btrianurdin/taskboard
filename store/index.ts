@@ -44,11 +44,9 @@ const useTodoStore = () => {
           BoardListsRepository.update(params.id, { title: params.title });
         }
       },
-      getTask(listId: string, taskId: string) {
-        const board = this.boardLists.find((board) => board.id === listId);
-        if (board) {
-          return board.tasks.find((task) => task.id === taskId);
-        }
+      deleteBoardList(id: string) {
+        this.boardLists = this.boardLists.filter((board) => board.id !== id);
+        BoardListsRepository.delete(id);
       },
       addTask(params: AddTask) {
         const board = this.boardLists.find(
@@ -79,7 +77,7 @@ const useTodoStore = () => {
           }
         }
       },
-      removeTask(listId: string, taskId: string) {
+      deleteTask(listId: string, taskId: string) {
         const board = this.boardLists.find((board) => board.id === listId);
         if (board) {
           board.tasks = board.tasks.filter((task) => task.id !== taskId);
