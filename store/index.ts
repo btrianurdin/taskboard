@@ -175,6 +175,22 @@ const useTodoStore = () => {
       storageUpdate() {
         BoardListsRepository.updateAll(this.boardLists);
       },
+
+      // export data
+      async exportData() {
+        const data = await BoardListsRepository.getAll();
+        const metadata = {
+          type: "taskboardapp",
+          version: "1.0",
+          data,
+        };
+        return JSON.stringify(metadata);
+      },
+      // import data
+      async importData(metadata: { type: string; version: string; data: any }) {
+        await BoardListsRepository.updateAll(metadata.data);
+        this.initializeBoardLists();
+      },
     },
   });
 

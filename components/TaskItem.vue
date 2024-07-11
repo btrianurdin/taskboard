@@ -10,7 +10,23 @@
       v-if="props.task.dueDate"
       class="text-xs flex gap-1 items-center px-3 pb-2"
     >
-      <UIcon name="i-lucide-clock" class="text-gray-500" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </g>
+      </svg>
       {{ printDueDate }}
     </p>
     <button
@@ -68,10 +84,6 @@
         >
           Open card
         </UButton>
-        <UButton color="white" icon="i-lucide-external-link">
-          Visit Detail
-        </UButton>
-        <UButton color="white" icon="i-lucide-clock"> Add Date </UButton>
         <UButton
           color="red"
           icon="i-lucide-trash-2"
