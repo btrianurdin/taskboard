@@ -18,6 +18,14 @@ export type Task = {
   id: string;
   title: string;
   description: string;
+  checklists?: Checklist[];
+  dueDate?: string;
+};
+
+export type Checklist = {
+  id: string;
+  title: string;
+  isChecked: boolean;
 };
 
 export type AddTask = {
@@ -26,17 +34,5 @@ export type AddTask = {
   title: string;
 };
 
-export type ChangeTaskType = "added" | "removed" | "moved";
-export type ChangeTask = {
-  listId: string;
-  task: Task;
-  from?: number;
-  to?: number;
-};
-
-export type MoveTask = {
-  listId: string;
-  task: Task;
-  from: number;
-  to: number;
-};
+// type utility
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;

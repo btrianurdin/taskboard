@@ -3,7 +3,9 @@ import BoardListsRepository from "~/repositories/BoardListsRepository";
 import type {
   AddTask,
   BoardList,
+  Checklist,
   CreateBoardList,
+  Optional,
   UpdateBoardList,
 } from "~/types";
 
@@ -96,6 +98,60 @@ const useTodoStore = () => {
           const task = board.tasks.find((task) => task.id === params.taskId);
           if (task) {
             task.description = params.description;
+            this.storageUpdate();
+          }
+        }
+      },
+      addTaskChecklist(params: {
+        listId: string;
+        taskId: string;
+        checklistId: string;
+        title: string;
+      }) {
+        const board = this.boardLists.find(
+          (board) => board.id === params.listId
+        );
+        if (board) {
+          const task = board.tasks.find((task) => task.id === params.taskId);
+          if (task) {
+            if (!task.checklists) task.checklists = [];
+            task.checklists.push({
+              id: params.checklistId,
+              title: params.title,
+              isChecked: false,
+            });
+            this.storageUpdate();
+          }
+        }
+      },
+      updateTaskChecklist(params: {
+        action: "update" | "delete";
+        listId: string;
+        taskId: string;
+        checklistId: string;
+        data?: Optional<Omit<Checklist, "id">, "title" | "isChecked">;
+      }) {
+        const board = this.boardLists.find(
+          (board) => board.id === params.listId
+        );
+        if (board) {
+          const task = board.tasks.find((task) => task.id === params.taskId);
+          if (task) {
+            if (params.action === "update") {
+              const checklist = task.checklists?.find(
+                (checklist) => checklist.id === params.checklistId
+              );
+              if (checklist) {
+                checklist.title = params?.data?.title ?? checklist.title;
+                checklist.isChecked =
+                  params?.data?.isChecked ?? checklist.isChecked;
+              }
+            }
+            if (params.action === "delete") {
+              task.checklists = task.checklists?.filter(
+                (checklist) => checklist.id !== params.checklistId
+              );
+            }
             this.storageUpdate();
           }
         }
