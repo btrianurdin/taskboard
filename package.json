@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@floating-ui/vue": "^1.1.1",
+    "@fullcalendar/core": "^6.1.14",
+    "@fullcalendar/daygrid": "^6.1.14",
+    "@fullcalendar/interaction": "^6.1.14",
+    "@fullcalendar/vue3": "^6.1.14",
     "@nuxt/ui": "^2.17.0",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/core": "^10.11.0",
