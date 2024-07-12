@@ -28,7 +28,6 @@
             </div>
             <DatePicker
               v-model="date"
-              timezone="UTC"
               is-required
               is-range-date
               is24hr

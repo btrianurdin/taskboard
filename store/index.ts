@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { defineStore } from "pinia";
 import BoardListsRepository from "~/repositories/BoardListsRepository";
 import type {
@@ -6,8 +7,14 @@ import type {
   Checklist,
   CreateBoardList,
   Optional,
+  Task,
   UpdateBoardList,
 } from "~/types";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 type InitialStatus = "idle" | "loading" | "ready" | "error";
 
@@ -18,6 +25,25 @@ const useTodoStore = () => {
         status: "idle" as InitialStatus,
         boardLists: [] as BoardList[],
       };
+    },
+    getters: {
+      tasks: (state) => {
+        return state.boardLists.reduce((acc, board) => {
+          return [...acc, ...board.tasks];
+        }, [] as Task[]);
+      },
+      taskHasDueDate: (state) => {
+        return state.boardLists.reduce((acc, board) => {
+          const _tasks = board.tasks
+            .filter((task) => task.dueDate)
+            .map((task) => ({
+              ...task,
+              listId: board.id,
+            }));
+
+          return [...acc, ..._tasks];
+        }, [] as (Task & { listId: string })[]);
+      },
     },
     actions: {
       async initializeBoardLists() {
@@ -169,6 +195,24 @@ const useTodoStore = () => {
             this.storageUpdate();
           }
         }
+      },
+
+      getTaskById(listId: string, taskId: string) {
+        const board = this.boardLists.find((board) => board.id === listId);
+        if (board) {
+          return board.tasks.find((task) => task.id === taskId);
+        }
+        return null;
+      },
+
+      getTaskByDate(date: Date) {
+        const _date = dayjs(date).add(1, "minute").toISOString();
+        return this.taskHasDueDate.filter(
+          (task) =>
+            task.dueDate &&
+            dayjs(task.dueDate.start).isSameOrBefore(_date, "day") &&
+            dayjs(task.dueDate.end).isSameOrAfter(_date, "day")
+        );
       },
 
       // save changes state to local storage
