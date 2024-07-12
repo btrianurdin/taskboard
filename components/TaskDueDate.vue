@@ -60,6 +60,18 @@
               </div>
             </div>
             <div class="px-2 flex mt-3 gap-2 justify-end">
+              <UButton
+                v-if="props.dueDate"
+                color="red"
+                @click="
+                  {
+                    todoStore.deleteTaskDueDate(props.listId, props.taskId);
+                    close();
+                  }
+                "
+              >
+                Delete
+              </UButton>
               <UButton @click="saveHandler"> Save </UButton>
               <UButton variant="outline" @click="close"> Cancel </UButton>
             </div>

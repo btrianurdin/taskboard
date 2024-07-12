@@ -196,6 +196,16 @@ const useTodoStore = () => {
           }
         }
       },
+      deleteTaskDueDate(listId: string, taskId: string) {
+        const board = this.boardLists.find((board) => board.id === listId);
+        if (board) {
+          const task = board.tasks.find((task) => task.id === taskId);
+          if (task) {
+            task.dueDate = undefined;
+            this.storageUpdate();
+          }
+        }
+      },
 
       getTaskById(listId: string, taskId: string) {
         const board = this.boardLists.find((board) => board.id === listId);
