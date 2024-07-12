@@ -102,24 +102,31 @@ tsconfig.json
 ### Features in the application
 **1. Create a List**
 ![Create a list!](https://i.ibb.co.com/sFkcCmv/image.png)
+
 **2. Create the Task in a List**
 ![Create the task!](https://i.ibb.co.com/rsPrg7P/image.png)
+
 **3. Edit/Remove the task**
 ![Edit/Remove the task!](https://i.ibb.co.com/N6sjRtZ/image.png)
+
 **4. The detail of task**
-![The detail of task!](https://i.ibb.co.com/N2vzfBh/image.png)
+![The detail of task!](https://i.ibb.co.com/Hd8c2Rb/image.png)
+
 **5. Add the description to task**
 ![Add the description!](https://i.ibb.co.com/nC1HCpc/image.png)
+
 **6. Create the Checklist**
 ![Create the checklist!](https://i.ibb.co.com/8Y6bPc1/image.png)
+
 **7. Add due date of the task**
 ![add due date!](https://i.ibb.co.com/DQQHBcv/image.png)
+
 **8. Export data to JSON**
-![export data!](https://i.ibb.co.com/tDtR5w2/image.png)
-**8. Export data to JSON**
-![export data!](https://i.ibb.co.com/tDtR5w2/image.png)
+![export data!](https://i.ibb.co.com/3NBN6xH/image.png)
+
 **9. Import from JSON file**
 ![Import data!](https://i.ibb.co.com/4fJn41W/image.png)
+
 **10. Calendar**
 ![Calendar!](https://i.ibb.co.com/yfHPmsh/image.png)
 
