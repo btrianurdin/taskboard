@@ -1,5 +1,8 @@
 # Taskboard - a web app to manage your task
 
+Live: https://taskboard.bnurd.com
+Alternative: https://taskboard-five.vercel.app/
+
 ## Brief Explanation
 I feel really comfortable using Trello because of its easy-to-use features and it has a great user experience. Inspired by Trello, a task management app that I often use, I decided to create a similar app by removing features that I don't need and adding some features that I do.
 
