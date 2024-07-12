@@ -22,7 +22,7 @@
           class="w-full"
           :ui="{
             strategy: 'override',
-            base: '!text-base w-full border-0 ring-0 shadow-none focus:ring-2',
+            base: '!text-base w-full !border-0 !ring-0 !shadow-none focus:!ring-2',
           }"
           autoresize
         />

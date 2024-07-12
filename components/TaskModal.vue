@@ -5,7 +5,7 @@
       <UTextarea
         :ui="{
           strategy: 'override',
-          base: '!text-2xl !font-semibold w-full p-0 p-4 border-0 ring-0 shadow-none focus:ring-2',
+          base: '!text-2xl !font-semibold w-full p-0 p-4 !border-0 !ring-0 !shadow-none focus:!ring-2',
         }"
         :rows="1"
         autoresize
