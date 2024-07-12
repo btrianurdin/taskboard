@@ -1,6 +1,6 @@
 # Taskboard - a web app to manage your task
 
-Live: https://taskboard.bnurd.com
+Live: https://taskboard.bnurd.com \
 Alternative: https://taskboard-five.vercel.app/
 
 ## Brief Explanation
