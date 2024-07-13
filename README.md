@@ -4,7 +4,7 @@ Live: https://taskboard.bnurd.com \
 Alternative: https://taskboard-five.vercel.app/
 
 ## Brief Explanation
-I feel really comfortable using Trello because of its easy-to-use features and it has a great user experience. Inspired by Trello, a task management app that I often use, I decided to create a similar app by removing features that I don't need and adding some features that I do.
+I feel really comfortable using Trello because of its easy-to-use features and it has a great user experience. Inspired by Trello, a task management app that I use frequently, however, I often feel overwhelmed by features I don't need, which disrupts my interaction and visual experience. Also, some of the necessary features were only available with a paid subscription. So, I decided to create a similar app by removing the features I didn't need and adding some features I did.
 
 ### Must Have
 1. A feature that can add a list and a card, I call them list and task.
@@ -26,7 +26,7 @@ I feel really comfortable using Trello because of its easy-to-use features and i
 
 ### Unnecessary
 1. Signin and Signup feature.
-    - Honestly, I don't like this feature only for the todo list application. I think it would be more efficient if the todo list application only used browser storage as data storage.
+    - Honestly, I don't like this feature if it's just for the todo list application. I think it would be more efficient if the todo list application only used browser storage as data storage.
 2. Member of task
     - Trello has a feature that allows multiple members to be included in a specific task. I don't think I need that feature because this app is only suitable for personal task management.
 
@@ -64,6 +64,12 @@ npm run preview
 # using yatn 
 yarn preview
 ```
+
+### Tech Stack
+1. Frontend Framework: NuxtJS
+2. State Management: Pinia
+3. UI Library: Nuxt UI
+4. CSS Library/framework: TailwindCSS
 
 ### Folder Structure
 ```
