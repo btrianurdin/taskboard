@@ -109,6 +109,9 @@ tsconfig.json
 16. tsconfig.json: This is the TypeScript configuration file.
 
 ### Features in the application
+> [!NOTE]
+> You can try to download the taskboard-import-sample.json file which is available in this folder/repository then import it into the application.
+
 **1. Create a List**
 ![Create a list!](https://i.ibb.co.com/sFkcCmv/image.png)
 
